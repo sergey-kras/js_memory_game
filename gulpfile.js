@@ -51,6 +51,7 @@ gulp.task('sass',['smartgrid'], function () {
 });
 gulp.task('html', function () {
     gulp.src('./app/*.html').pipe(gulp.dest('./dist/'));
+    gulp.src('./app/fonts/*').pipe(gulp.dest('./dist/fonts/'));
 });
 gulp.task('libs', function() {
     return gulp.src([
