@@ -1,53 +1,36 @@
-var deck = {
-    'King'  : [ 'KC', 'KD', 'KH', 'KS' ],
-    'Ten'   : [ '0C', '0D', '0H', '0S' ],
-    'Two'   : [ '2C', '2D', '2H', '2S' ],
-    'Three' : [ '3C', '3D', '3H', '3S' ],
-    'Four'  : [ '4C', '4D', '4H', '4S' ],
-    'Five'  : [ '5C', '5D', '5H', '5S' ],
-    'Six'   : [ '6C', '6D', '6H', '6S' ],
-    'Seven' : [ '7C', '7D', '7H', '7S' ],
-    'Eight' : [ '8C', '8D', '8H', '8S' ],
-    'Nine'  : [ '9C', '9D', '9H', '9S' ],
-    'Ace'   : [ 'AC', 'AD', 'AH', 'AS' ],
-    'Jack'  : [ 'JC', 'JD', 'JH', 'JS' ],
-    'Queen' : [ 'QC', 'QD', 'QH', 'QS' ]
-};
-function randomKeys(deckLocal,max) {
-    var keys = Object.keys(deckLocal);
-    var randomKeys = [];
-    for (var i = 0; i < max; i++){
-        randomKeys[i] = CheckMatch(keys, randomKeys, 13);
+var deck = [
+    'KC', 'KD', 'KH', 'KS' ,
+    '0C', '0D', '0H', '0S' ,
+    '2C', '2D', '2H', '2S' ,
+    '3C', '3D', '3H', '3S' ,
+    '4C', '4D', '4H', '4S' ,
+    '5C', '5D', '5H', '5S' ,
+    '6C', '6D', '6H', '6S' ,
+    '7C', '7D', '7H', '7S' ,
+    '8C', '8D', '8H', '8S' ,
+    '9C', '9D', '9H', '9S' ,
+    'AC', 'AD', 'AH', 'AS' ,
+    'JC', 'JD', 'JH', 'JS' ,
+    'QC', 'QD', 'QH', 'QS'
+];
+function randomCards(deck) {
+    var Cards = [];
+    for (var i=0; i<9; i++){
+        var nowElement = CheckMatch(deck,Cards);
+        Cards.push(nowElement);
+        Cards.push(nowElement);
     }
-    return randomKeys;
+    // Cards
+    return randomAll(Cards);
 }
-function CheckMatch(keys, randomKeys, max) {
-    var nowElement = keys[Math.floor(Math.random()*max)];
-    if(randomKeys.indexOf(nowElement) == -1){
+function CheckMatch(deck, Cards) {
+    var nowElement = deck[Math.floor(Math.random()*deck.length)];
+    if(Cards.indexOf(nowElement) == -1){
         return nowElement;
     }
     else {
-        return CheckMatch(keys, randomKeys, max);
+        return CheckMatch(deck, Cards);
     }
-}
-function CheckMatchCards(keys, randomKeys, max) {
-    var nowElementReturn = Math.floor(Math.random()*max);
-    var nowElement = keys[nowElementReturn];
-    if(randomKeys.indexOf(nowElement) == -1){
-        return nowElementReturn;
-    }
-    else {
-        return CheckMatchCards(keys, randomKeys, max);
-    }
-}
-function randomCards(deck,keys,max) {
-    var randomDeck = [];
-    for(var i = 0; i < 9; i++){
-        for(var j = 0; j < 2; j++){
-            randomDeck.push(deck[keys[i]][CheckMatchCards(deck[keys[i]],randomDeck,max)]);
-        }
-    }
-    return randomDeck;
 }
 function random(min, max) {
     var range = max - min + 1;
@@ -64,13 +47,12 @@ function randomAll(randomDeck) {
     }
     return randomDeck;
 }
-var Keys = randomKeys(deck,9);
-var Cards = randomCards(deck,Keys,2);
-var randomDeck = randomAll(Cards);
-function display(randomDeck) {
-    for (var i=0; i<=randomDeck.length; i++){
-        $('.game-page_field').append('<div class="card"><img src="img/cards/'+randomDeck[i]+'.png" alt=""></div>');
+var Cards = randomCards(deck);
+
+function viewCards(deck) {
+    for(var i = 0; i < 18; i++){
+        $('.game-page_field').append('<div class="card"><img src="img/cards/'+Cards[i]+'.png" alt=""></div>');
     }
 }
-display(randomDeck);
-console.log(randomDeck);
+viewCards(deck);
+
