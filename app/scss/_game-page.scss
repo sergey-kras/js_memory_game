@@ -1,0 +1,51 @@
+.game-page{
+  @include wrapper();
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  &_head{
+    @include col();
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    .again{
+      cursor: pointer;
+      opacity: 0.8;
+      font-family: "Open Sans";
+      font-weight: 600;
+      font-size: 14px;
+      color: #FFFFFF;
+      letter-spacing: -0.25px;
+      transition: .4s;
+      &:hover{
+        opacity: 1;
+        transition: .4s;
+      }
+    }
+    .score{
+      opacity: 0.8;
+      font-family: "Open Sans";
+      font-weight: 600;
+      font-size: 14px;
+      color: #FFFFFF;
+      letter-spacing: 0;
+      span{
+        font-family: Krungthep;
+        margin-left: 10px;
+      }
+    }
+  }
+  &_field{
+    display: flex;
+    flex-wrap: wrap;
+    .card{
+      @include size(2);
+      @include col();
+      margin-bottom: 20px;
+      img{
+        width: 100%;
+      }
+    }
+  }
+}

@@ -15,6 +15,7 @@
     font-size: 28px;
     letter-spacing: 0.2px;
     line-height: 38px;
+    font-weight: 700;
   }
   @at-root .button{
     transition: .4s;
@@ -26,6 +27,7 @@
     border-radius: 4px;
     font-size: 16px;
     padding: 10px 20px;
+    font-weight: 600;
     &:hover{
       transition: .4s;
       opacity: 1;
