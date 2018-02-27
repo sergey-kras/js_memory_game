@@ -49,6 +49,24 @@ function randomCards(deck,keys,max) {
     }
     return randomDeck;
 }
+function random(min, max) {
+    var range = max - min + 1;
+    return Math.floor(Math.random()*range) + min;
+}
+function randomAll(randomDeck) {
+    var r_i; // случайный индекс
+    var v; // временная переменная
+    for (var i = 0; i < randomDeck.length-1; i++) {
+        /* получаем случайный индекс (кроме последнего) */
+        r_i = random(0, randomDeck.length-1);
+        /* меняем местами случайный элемент массива с последним */
+        v = randomDeck[r_i];
+        randomDeck[r_i] = randomDeck[randomDeck.length-1];
+        randomDeck[randomDeck.length-1] = v;
+    }
+    return randomDeck;
+}
 var Keys = randomKeys(deck,9);
 var Cards = randomCards(deck,Keys,2);
-console.log(Cards);
+var randomDeck = randomAll(Cards);
+console.log(randomDeck);
