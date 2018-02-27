@@ -1,0 +1,7 @@
+.end-page{
+  @extend .start-page;
+  h1{
+    text-align: center;
+    text-transform: none;
+  }
+}
