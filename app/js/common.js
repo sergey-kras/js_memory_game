@@ -48,33 +48,44 @@ Cards = {
         }
         return randomDeck;
     },
-    viewCards: function (deck) {
-        for(var i = 0; i < 18; i++){
-            $('.game-page_field').append('<div data-tid="Card" class="card"><img src="img/cards/'+deck[i]+'.png" alt=""></div>');
+    SetCardsBack: function () {
+        for(var i=0; i<18; i++){
+            $('.game-page_field').append('<div data-tid="Card" tr="'+ i +'"class="card"><img src="img/back.png" alt=""></div>');
+            $('.card').children('img').offset({top:0, left:0});
+        }
+    },
+    setCardsBackAnimation: function (i) {
+        Cards.i = i;
+        if(i<18){
+            var position = $('.game-page_field').children('.card').eq(Cards.i).offset();
+            $('.game-page_field').find('img').eq(Cards.i).animate({'opacity' : '1'},0).offset(position);
+            Cards.i++;
+            return setTimeout('Cards.setCardsBackAnimation(Cards.i)',100);
         }
     }
 };
 UserControll = {
     StartGame: function () {
         $('[data-tid="NewGame-startGame"]').click(function () {
-            $('.start-page').fadeOut(1000).clearQueue();
-            $('.start-page').slideUp(1000);
-            $('.game-page').fadeIn(300,function () {
+            Cards.SetCardsBack();
+            $('.start-page').fadeOut(700).clearQueue();
+            $('.start-page').slideUp(700);
+            $('.game-page').fadeIn(700,"linear",function () {
                 Deck = Cards.randomCards(Cards.deck);
                 Deck = Cards.randomAll(Deck);
-                Cards.viewCards(Deck);
+                Cards.setCardsBackAnimation(0);
             });
         });
     },
     restartGame: function () {
         $('[data-tid="Menu-newGame"]').click(function () {
             $('.game-page_field').html('');
+            Cards.SetCardsBack(0);
             Deck = Cards.randomCards(Cards.deck);
             Deck = Cards.randomAll(Deck);
-            Cards.viewCards(Deck);
+            Cards.setCardsBackAnimation(0);
         });
     }
 };
 UserControll.StartGame();
 UserControll.restartGame();
-

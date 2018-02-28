@@ -43,9 +43,19 @@
     .card{
       @include size(2);
       @include col();
+      width: 143px;
+      height: 195px;
+      box-sizing: border-box;
       margin-bottom: 20px;
+      border-radius: 8px;
+      border: 8px solid transparent;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
       img{
-        width: 100%;
+        transition: .3s linear;
+        width: 143px;
+        height: 195px;
+        position: absolute;
+        opacity: 0;
       }
     }
   }
