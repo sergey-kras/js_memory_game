@@ -50,10 +50,31 @@ Cards = {
     },
     viewCards: function (deck) {
         for(var i = 0; i < 18; i++){
-            $('.game-page_field').append('<div class="card"><img src="img/cards/'+deck[i]+'.png" alt=""></div>');
+            $('.game-page_field').append('<div data-tid="Card" class="card"><img src="img/cards/'+deck[i]+'.png" alt=""></div>');
         }
     }
 };
-var Deck = Cards.randomCards(Cards.deck);
-Deck = Cards.randomAll(Deck);
-Cards.viewCards(Deck);
+UserControll = {
+    StartGame: function () {
+        $('[data-tid="NewGame-startGame"]').click(function () {
+            $('.start-page').fadeOut(1000).clearQueue();
+            $('.start-page').slideUp(1000);
+            $('.game-page').fadeIn(300,function () {
+                Deck = Cards.randomCards(Cards.deck);
+                Deck = Cards.randomAll(Deck);
+                Cards.viewCards(Deck);
+            });
+        });
+    },
+    restartGame: function () {
+        $('[data-tid="Menu-newGame"]').click(function () {
+            $('.game-page_field').html('');
+            Deck = Cards.randomCards(Cards.deck);
+            Deck = Cards.randomAll(Deck);
+            Cards.viewCards(Deck);
+        });
+    }
+};
+UserControll.StartGame();
+UserControll.restartGame();
+
