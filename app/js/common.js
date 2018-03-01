@@ -109,7 +109,7 @@ UserControll = {
                 }
             }
         });
-    },
+    }
 };
 UserControll.StartGame();
 UserControll.restartGame();
