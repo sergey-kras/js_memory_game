@@ -51,21 +51,30 @@ Cards = {
     SetCardsBack: function () {
         if($('.card').html() == undefined){
             for(var i=0; i<18; i++){
-                $('.game-page_field').append('<div data-tid="Card" class="card"><img src="img/back.png" alt=""></div>');
+                $('.game-page_field').append('<div data-tid="Card" class="card"><img class="card_img" src="img/back.png" alt=""></div>');
             }
         }
         var position = $('body').offset();
         $('.game-page_field').find('img').animate({'top':position.top,'left':position.left},0);
     },
-    setCardsBackAnimation: function (i) {
-        console.log(i);
+    correlateCards : function (desk) {
+        
+    }
+};
+Animation = {
+    SetCardsBack: function (i) {
         if(i<18){
             var position = $('.game-page_field').children('.card').eq(i).offset();
-            $('.card').children('img').eq(i).animate({'top':position.top,'left':position.left,'opacity' : '1'},200, function () {
+            $('.card').children('img').eq(i).animate({'top':position.top,'left':position.left,'opacity' : '1', 'position':'relative'},200, function () {
                 i++;
-                return Cards.setCardsBackAnimation(i);
+                return Animation.SetCardsBack(i);
             });
         }
+    }
+};
+Card = {
+    ViewCard : function (object) {
+
     }
 };
 UserControll = {
@@ -76,7 +85,7 @@ UserControll = {
             $('.game-page').fadeIn(700,"linear",function () {
                 Deck = Cards.randomCards(Cards.deck);
                 Deck = Cards.randomAll(Deck);
-                Cards.setCardsBackAnimation(0);
+                Animation.SetCardsBack(0);
             });
         });
     },
@@ -87,9 +96,17 @@ UserControll = {
             Deck = Cards.randomCards(Cards.deck);
             Deck = Cards.randomAll(Deck);
             setTimeout(Cards.SetCardsBack());
-            setTimeout(Cards.setCardsBackAnimation(0));
+            setTimeout(Animation.SetCardsBack(0));
         });
-    }
+    },
+    clickCard: function () {
+        $(document).on('click', function (event) {
+            if ($(event.target).hasClass('card_img')) {
+                console.log($(event.target).parent().index());
+            }
+        });
+    },
 };
 UserControll.StartGame();
 UserControll.restartGame();
+UserControll.clickCard();
