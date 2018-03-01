@@ -86,10 +86,9 @@ UserControll = {
             $('.card').children('img').animate({'opacity' : '0', 'top':'0px', 'left' : left + 'px'},400, function () {
                 Deck = Cards.randomCards(Cards.deck);
                 Deck = Cards.randomAll(Deck);
-                Cards.SetCardsBack();
-                Cards.setCardsBackAnimation(0);
             });
-
+            setTimeout(Cards.SetCardsBack());
+            setTimeout(Cards.setCardsBackAnimation(0));
         });
     }
 };
