@@ -49,18 +49,22 @@ Cards = {
         return randomDeck;
     },
     SetCardsBack: function () {
-        for(var i=0; i<18; i++){
-            $('.game-page_field').append('<div data-tid="Card" tr="'+ i +'"class="card"><img src="img/back.png" alt=""></div>');
-            $('.card').children('img').offset({top:0, left:0});
+        if($('.card').html() == undefined){
+            for(var i=0; i<18; i++){
+                $('.game-page_field').append('<div data-tid="Card" class="card"><img src="img/back.png" alt=""></div>');
+            }
         }
+        var position = $('body').offset();
+        $('.game-page_field').find('img').animate({'top':position.top,'left':position.left},0);
     },
     setCardsBackAnimation: function (i) {
-        Cards.i = i;
+        console.log(i);
         if(i<18){
-            var position = $('.game-page_field').children('.card').eq(Cards.i).offset();
-            $('.game-page_field').find('img').eq(Cards.i).animate({'opacity' : '1'},0).offset(position);
-            Cards.i++;
-            return setTimeout('Cards.setCardsBackAnimation(Cards.i)',100);
+            var position = $('.game-page_field').children('.card').eq(i).offset();
+            $('.card').children('img').eq(i).animate({'top':position.top,'left':position.left,'opacity' : '1'},200, function () {
+                i++;
+                return Cards.setCardsBackAnimation(i);
+            });
         }
     }
 };
@@ -68,8 +72,7 @@ UserControll = {
     StartGame: function () {
         $('[data-tid="NewGame-startGame"]').click(function () {
             Cards.SetCardsBack();
-            $('.start-page').fadeOut(700).clearQueue();
-            $('.start-page').slideUp(700);
+            $('.start-page').fadeOut(700).clearQueue().slideUp(700);
             $('.game-page').fadeIn(700,"linear",function () {
                 Deck = Cards.randomCards(Cards.deck);
                 Deck = Cards.randomAll(Deck);
@@ -79,11 +82,14 @@ UserControll = {
     },
     restartGame: function () {
         $('[data-tid="Menu-newGame"]').click(function () {
-            $('.game-page_field').html('');
-            Cards.SetCardsBack(0);
-            Deck = Cards.randomCards(Cards.deck);
-            Deck = Cards.randomAll(Deck);
-            Cards.setCardsBackAnimation(0);
+            var left = $('body')[0].clientWidth - $('.card')[0].clientWidth-20;
+            $('.card').children('img').animate({'opacity' : '0', 'top':'0px', 'left' : left + 'px'},400, function () {
+                Deck = Cards.randomCards(Cards.deck);
+                Deck = Cards.randomAll(Deck);
+                Cards.SetCardsBack();
+                Cards.setCardsBackAnimation(0);
+            });
+
         });
     }
 };
