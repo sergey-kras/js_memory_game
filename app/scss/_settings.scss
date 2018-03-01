@@ -10,6 +10,46 @@ body{
 h1{
   text-transform: uppercase;
 }
+
 .game-page, .end-page{
   display: none;
 }
+
+//
+///* весь контейнер поддерживает перспективу */
+//.game-page_field {
+//  perspective: 1000;
+//}
+///* переверните сторону при проведении мышью */
+//.card:hover {
+//  transform: rotateY(180deg);
+//}
+///* здесь находится скорость перевертывания */
+//.card {
+//  transition: 0.6s;
+//  transform-style: preserve-3d;
+//  position: relative;
+//}
+//.card{
+//  img{
+//    position: relative !important;
+//  }
+//}
+///* скройте обратную сторону во время переворота */
+//.card_img, .card_front {
+//  backface-visibility: hidden;
+//
+//  position: absolute;
+//  top: 0;
+//  left: 0;
+//}
+//
+///* лицевая сторона размещена над обратной */
+//.card_img {
+//  z-index: 2;
+//}
+//
+///* обратная, изначально скрытая сторона */
+//.card_front {
+//  transform: rotateY(180deg);
+//}

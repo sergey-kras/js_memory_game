@@ -57,8 +57,8 @@ Cards = {
         var position = $('body').offset();
         $('.game-page_field').find('img').animate({'top':position.top,'left':position.left},0);
     },
-    correlateCards : function (desk) {
-        
+    ReturnCard: function (number, desc) {
+        return desc[number];
     }
 };
 Animation = {
@@ -70,11 +70,10 @@ Animation = {
                 return Animation.SetCardsBack(i);
             });
         }
-    }
-};
-Card = {
-    ViewCard : function (object) {
-
+    },
+    ViewCard: function (object,cardname) {
+        $(object).parent().append('<img class="card_front" src="img/cards/'+cardname+'.png" alt="">').fadeIn(500);
+        $(object).parent().find('.card_img').fadeOut(500);
     }
 };
 UserControll = {
@@ -84,7 +83,7 @@ UserControll = {
             $('.start-page').fadeOut(700).clearQueue().slideUp(700);
             $('.game-page').fadeIn(700,"linear",function () {
                 Deck = Cards.randomCards(Cards.deck);
-                Deck = Cards.randomAll(Deck);
+                Cards.Deck = Cards.randomAll(Deck);
                 Animation.SetCardsBack(0);
             });
         });
@@ -94,7 +93,7 @@ UserControll = {
             var left = $('body')[0].clientWidth - $('.card')[0].clientWidth-20;
             $('.card').children('img').animate({'opacity' : '0', 'top':'0px', 'left' : left + 'px'},400);
             Deck = Cards.randomCards(Cards.deck);
-            Deck = Cards.randomAll(Deck);
+            Cards.Deck = Cards.randomAll(Deck);
             setTimeout(Cards.SetCardsBack());
             setTimeout(Animation.SetCardsBack(0));
         });
@@ -102,7 +101,11 @@ UserControll = {
     clickCard: function () {
         $(document).on('click', function (event) {
             if ($(event.target).hasClass('card_img')) {
-                console.log($(event.target).parent().index());
+                var number = $(event.target).parent().index();
+                var cardName = Cards.ReturnCard(number,Cards.Deck);
+                if($(event.target).parent().children()[1] == undefined){
+                    Animation.ViewCard($(event.target),cardName);
+                }
             }
         });
     },
