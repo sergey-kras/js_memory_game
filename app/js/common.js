@@ -83,13 +83,11 @@ UserControll = {
     restartGame: function () {
         $('[data-tid="Menu-newGame"]').click(function () {
             var left = $('body')[0].clientWidth - $('.card')[0].clientWidth-20;
-            $('.card').children('img').animate({'opacity' : '0', 'top':'0px', 'left' : left + 'px'},400, function () {
-                Deck = Cards.randomCards(Cards.deck);
-                Deck = Cards.randomAll(Deck);
-                Cards.SetCardsBack();
-                Cards.setCardsBackAnimation(0);
-            });
-
+            $('.card').children('img').animate({'opacity' : '0', 'top':'0px', 'left' : left + 'px'},400);
+            Deck = Cards.randomCards(Cards.deck);
+            Deck = Cards.randomAll(Deck);
+            setTimeout(Cards.SetCardsBack());
+            setTimeout(Cards.setCardsBackAnimation(0));
         });
     }
 };
