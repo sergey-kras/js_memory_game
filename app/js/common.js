@@ -65,7 +65,7 @@ Animation = {
     SetCardsBack: function (i) {
         if(i<18){
             var position = $('.game-page_field').children('.card').eq(i).offset();
-            $('.card').children('img').eq(i).animate({'top':position.top,'left':position.left,'opacity' : '1', 'position':'relative'},200, function () {
+            $('.card').children('img').eq(i).css({'display':'block'}).animate({'top':position.top,'left':position.left,'opacity' : '1', 'position':'relative'},200, function () {
                 i++;
                 return Animation.SetCardsBack(i);
             });
@@ -91,7 +91,8 @@ UserControll = {
     restartGame: function () {
         $('[data-tid="Menu-newGame"]').click(function () {
             var left = $('body')[0].clientWidth - $('.card')[0].clientWidth-20;
-            $('.card').children('img').animate({'opacity' : '0', 'top':'0px', 'left' : left + 'px'},400);
+            $('.card').children('img').css({'display':'block'}).animate({'opacity' : '0', 'top':'0px', 'left' : left + 'px'},400);
+            $('.card_front').remove();
             Deck = Cards.randomCards(Cards.deck);
             Cards.Deck = Cards.randomAll(Deck);
             setTimeout(Cards.SetCardsBack());
