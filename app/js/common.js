@@ -96,14 +96,24 @@ Animation = {
         $('.card_img').fadeIn(500);
         $('.card_front').remove();
     },
-    HideThisCards: function (firstCard, secondCard) {
+    HideThisTrueCards: function (firstCard, secondCard) {
         var firstCard = $(firstCard).parent().find('.card_front');
         var secondCard = $(secondCard).parent().find('.card_front');
-        $(firstCard).parent().find('.card_img').remove();
-        $(secondCard).parent().find('.card_img').remove();
+        $(firstCard).parent().find('.card_img').css({'opacity': 0});
+        $(secondCard).parent().find('.card_img').css({'opacity': 0});
         var left = $('body')[0].clientWidth - $(firstCard)[0].clientWidth-20;
-        $(firstCard).css({'position':'absolute'}).animate({opacity : 0, top: 0 + 'px', left : left + 'px'},400);
-        $(secondCard).css({'position':'absolute'}).animate({opacity : 0, top:0 + 'px', left : left + 'px'},400).clearQueue();
+        $(firstCard).css({'position':'absolute'}).animate({opacity : 0, top: 0 + 'px', left : left + 'px'},400,function () {
+            firstCard.remove();
+        }).clearQueue();
+        $(secondCard).css({'position':'absolute'}).animate({opacity : 0, top:0 + 'px', left : left + 'px'},400,function () {
+            secondCard.remove();
+        }).clearQueue();
+    },
+    HideThisFalseCards: function (firstCard, secondCard) {
+        var firstCardFront = $(firstCard).parent().find('.card_front');
+        var secondCardFront = $(secondCard).parent().find('.card_front');
+        setTimeout(firstCardFront.remove(),1000);
+        setTimeout(secondCardFront.remove(),1000);
     },
     Timer: function () {
         $('.timer').show();
@@ -164,10 +174,10 @@ Controller = {
             var nameFirstCard  = firstCard.src;
             var nameSecondCard = secondCard.src;
             if (nameFirstCard == nameSecondCard){
-                Animation.HideThisCards(firstCard, secondCard);
+                Animation.HideThisTrueCards(firstCard, secondCard);
             }
             else {
-                console.log('no');
+                //Animation.HideThisFalseCards(firstCard, secondCard);
             }
         }
     }
