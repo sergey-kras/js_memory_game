@@ -63,6 +63,9 @@ Cards = {
 };
 Animation = {
     SetCardsBack: function (i) {
+        if(i==18){
+            Animation.ViewAllCards();
+        }
         if(i<18){
             var position = $('.game-page_field').children('.card').eq(i).offset();
             if(i<17){
@@ -77,9 +80,20 @@ Animation = {
             });
         }
     },
+    ViewAllCards: function () {
+        $('.card_img').fadeOut(500);
+        for(var i = 0; i < 18; i++){
+            $('.card').eq(i).append('<img class="card_front" src="img/cards/'+Cards.Deck[i]+'.png" alt="">').fadeIn(500);
+        }
+        setTimeout(Animation.HideAllCards, 5000);
+    },
     ViewCard: function (object,cardname) {
         $(object).parent().append('<img class="card_front" src="img/cards/'+cardname+'.png" alt="">').fadeIn(500);
         $(object).parent().find('.card_img').fadeOut(500);
+    },
+    HideAllCards: function () {
+        $('.card_img').fadeIn(500);
+        $('.card_front').remove();
     }
 };
 UserControll = {
@@ -117,6 +131,9 @@ UserControll = {
         });
     }
 };
+
+
+console.log($('.card_front'));
 UserControll.StartGame();
 UserControll.restartGame();
 UserControll.clickCard();
