@@ -99,8 +99,8 @@ Animation = {
     HideThisTrueCards: function (firstCard, secondCard) {
         var firstCard = $(firstCard).parent().find('.card_front');
         var secondCard = $(secondCard).parent().find('.card_front');
-        $(firstCard).parent().find('.card_img').css({'opacity': 0});
-        $(secondCard).parent().find('.card_img').css({'opacity': 0});
+        $(firstCard).parent().find('.card_img').animate({'opacity': 0},0);
+        $(secondCard).parent().find('.card_img').animate({'opacity': 0},0);
         var left = $('body')[0].clientWidth - $(firstCard)[0].clientWidth-20;
         $(firstCard).css({'position':'absolute'}).animate({opacity : 0, top: 0 + 'px', left : left + 'px'},400,function () {
             firstCard.remove();
@@ -110,10 +110,10 @@ Animation = {
         }).clearQueue();
     },
     HideThisFalseCards: function (firstCard, secondCard) {
-        var firstCardFront = $(firstCard).parent().find('.card_front');
-        var secondCardFront = $(secondCard).parent().find('.card_front');
-        setTimeout(firstCardFront.remove(),1000);
-        setTimeout(secondCardFront.remove(),1000);
+        $(firstCard).parent().find('.card_img').css({'display': 'block'}).animate({opacity:1},400).clearQueue();
+        $(secondCard).parent().find('.card_img').css({'display': 'block'}).animate({opacity:1},400, function () {
+            $('.card_front').remove();
+        }).clearQueue();
     },
     Timer: function () {
         $('.timer').show();
@@ -168,16 +168,16 @@ Controller = {
     },
     CheckPair : function (bool) {
         if(bool){
-            var firstCard = $('.game-page_field').find('.card_front').eq(0)[0];
-            var secondCard =$('.game-page_field').find('.card_front').eq(1)[0];
+            Controller.firstCard = $('.game-page_field').find('.card_front').eq(0)[0];
+            Controller.secondCard =$('.game-page_field').find('.card_front').eq(1)[0];
 
-            var nameFirstCard  = firstCard.src;
-            var nameSecondCard = secondCard.src;
+            var nameFirstCard  = Controller.firstCard.src;
+            var nameSecondCard = Controller.secondCard.src;
             if (nameFirstCard == nameSecondCard){
-                Animation.HideThisTrueCards(firstCard, secondCard);
+                setTimeout('Animation.HideThisTrueCards(Controller.firstCard, Controller.secondCard)',400);
             }
             else {
-                //Animation.HideThisFalseCards(firstCard, secondCard);
+                setTimeout('Animation.HideThisFalseCards(Controller.firstCard, Controller.firstCard)',400);
             }
         }
     }
