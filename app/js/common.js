@@ -85,6 +85,7 @@ Animation = {
         for(var i = 0; i < 18; i++){
             $('.card').eq(i).append('<img class="card_front" src="img/cards/'+Cards.Deck[i]+'.png" alt="">').fadeIn(500);
         }
+        Animation.Timer();
         setTimeout(Animation.HideAllCards, 5000);
     },
     ViewCard: function (object,cardname) {
@@ -94,6 +95,22 @@ Animation = {
     HideAllCards: function () {
         $('.card_img').fadeIn(500);
         $('.card_front').remove();
+    },
+    HideThisCards: function (firstCard, secondCard) {
+        var firstCard = $(firstCard).parent().find('.card_front');
+        var secondCard = $(secondCard).parent().find('.card_front');
+        $(firstCard).parent().find('.card_img').remove();
+        $(secondCard).parent().find('.card_img').remove();
+        var left = $('body')[0].clientWidth - $(firstCard)[0].clientWidth-20;
+        $(firstCard).css({'position':'absolute'}).animate({opacity : 0, top: 0 + 'px', left : left + 'px'},400);
+        $(secondCard).css({'position':'absolute'}).animate({opacity : 0, top:0 + 'px', left : left + 'px'},400).clearQueue();
+    },
+    Timer: function () {
+        $('.timer').show();
+        $('.timer_line').animate({width:0},5000,function () {
+            $('.timer').hide();
+            $('.timer_line').css({'width':'100%'});
+        });
     }
 };
 UserControll = {
@@ -115,8 +132,8 @@ UserControll = {
             $('.card_front').remove();
             Deck = Cards.randomCards(Cards.deck);
             Cards.Deck = Cards.randomAll(Deck);
-            setTimeout(Cards.SetCardsBack());
-            setTimeout(Animation.SetCardsBack(0));
+            Cards.SetCardsBack();
+            Animation.SetCardsBack(0);
         });
     },
     clickCard: function () {
@@ -127,13 +144,34 @@ UserControll = {
                 if($(event.target).parent().children()[1] == undefined){
                     Animation.ViewCard($(event.target),cardName);
                 }
+                var pairBool = Controller.OnlyTwo();
+                Controller.CheckPair(pairBool);
             }
         });
     }
 };
+Controller = {
+    OnlyTwo : function () {
+        var Pair = $('.game-page_field').find('.card_front').eq(1)[0];
+        if(Pair != undefined) return true;
+        else return false;
+    },
+    CheckPair : function (bool) {
+        if(bool){
+            var firstCard = $('.game-page_field').find('.card_front').eq(0)[0];
+            var secondCard =$('.game-page_field').find('.card_front').eq(1)[0];
 
-
-console.log($('.card_front'));
+            var nameFirstCard  = firstCard.src;
+            var nameSecondCard = secondCard.src;
+            if (nameFirstCard == nameSecondCard){
+                Animation.HideThisCards(firstCard, secondCard);
+            }
+            else {
+                console.log('no');
+            }
+        }
+    }
+};
 UserControll.StartGame();
 UserControll.restartGame();
 UserControll.clickCard();

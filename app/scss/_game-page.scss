@@ -4,6 +4,18 @@
   flex-direction: column;
   justify-content: center;
   padding-top: 8vh;
+  .timer{
+    width: 100%;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    display: none;
+    &_line{
+      width: 100%;
+      height: 10px;
+      background-color: #ff4e44;
+    }
+  }
   &_head{
     @include col();
     margin-bottom: 30px;
