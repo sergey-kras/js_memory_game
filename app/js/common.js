@@ -65,6 +65,12 @@ Animation = {
     SetCardsBack: function (i) {
         if(i<18){
             var position = $('.game-page_field').children('.card').eq(i).offset();
+            if(i<17){
+                $('html').css({'pointer-events':'none'});
+            }
+            else {
+                $('html').css({'pointer-events':'auto'});
+            }
             $('.card').children('img').eq(i).css({'display':'block'}).animate({'top':position.top,'left':position.left,'opacity' : '1', 'position':'relative'},200, function () {
                 i++;
                 return Animation.SetCardsBack(i);
