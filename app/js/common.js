@@ -51,7 +51,7 @@ Cards = {
     SetCardsBack: function () {
         if($('.card').html() == undefined){
             for(var i=0; i<18; i++){
-                $('.game-page_field').append('<div data-tid="Card" class="card"><img class="card_img" src="img/back.png" alt=""></div>');
+                $('.game-page_field').append('<div data-tid="Card" class="card"><img class="card_img" style="z-index:0" src="img/back.png" alt=""></div>');
             }
         }
         var position = $('body').offset();
@@ -102,18 +102,21 @@ Animation = {
         $(firstCard).parent().find('.card_img').animate({'opacity': 0},0);
         $(secondCard).parent().find('.card_img').animate({'opacity': 0},0);
         var left = $('body')[0].clientWidth - $(firstCard)[0].clientWidth-20;
-        $(firstCard).css({'position':'absolute'}).animate({opacity : 0, top: 0 + 'px', left : left + 'px'},400,function () {
+        $(firstCard).css({'position':'absolute', 'z-index':1}).animate({opacity : 0, top: 0 + 'px', left : left + 'px'},400,function () {
             firstCard.remove();
         }).clearQueue();
-        $(secondCard).css({'position':'absolute'}).animate({opacity : 0, top:0 + 'px', left : left + 'px'},400,function () {
+        $(secondCard).css({'position':'absolute','z-index':1}).animate({opacity : 0, top:0 + 'px', left : left + 'px'},400,function () {
             secondCard.remove();
         }).clearQueue();
     },
     HideThisFalseCards: function (firstCard, secondCard) {
-        $(firstCard).parent().find('.card_img').css({'display': 'block'}).animate({opacity:1},400).clearQueue();
-        $(secondCard).parent().find('.card_img').css({'display': 'block'}).animate({opacity:1},400, function () {
+        console.log($(firstCard).parent().find('.card_img'));
+        console.log($(secondCard).parent().find('.card_img'));
+        $(secondCard).parent().find('.card_img').fadeIn(400);
+        $(firstCard).parent().find('.card_img').fadeIn(400);
+        $('.card_front').fadeOut(400,function () {
             $('.card_front').remove();
-        }).clearQueue();
+        });
     },
     Timer: function () {
         $('.timer').show();
@@ -170,7 +173,6 @@ Controller = {
         if(bool){
             Controller.firstCard = $('.game-page_field').find('.card_front').eq(0)[0];
             Controller.secondCard =$('.game-page_field').find('.card_front').eq(1)[0];
-
             var nameFirstCard  = Controller.firstCard.src;
             var nameSecondCard = Controller.secondCard.src;
             if (nameFirstCard == nameSecondCard){
