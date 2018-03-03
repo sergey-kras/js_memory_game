@@ -73,9 +73,6 @@ Animation = {
             if(i<17){
                 $('html').css({'pointer-events':'none'});
             }
-            else {
-                $('html').css({'pointer-events':'auto'});
-            }
             $('.card').children('img').eq(i).css({'display':'block'}).animate({'top':position.top,'left':position.left,'opacity' : '1', 'position':'relative'},200, function () {
                 i++;
                 return Animation.SetCardsBack(i);
@@ -125,6 +122,7 @@ Animation = {
         $('.timer_line').animate({width:0},5000,function () {
             $('.timer').hide();
             $('.timer_line').css({'width':'100%'});
+            $('html').css({'pointer-events':'auto'});
         });
     },
     ViewScores: function () {
