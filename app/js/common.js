@@ -236,6 +236,15 @@ Score = {
         Score.Scores -= (9 - Cards.pairsOnField) * 42;
     }
 };
+$(window).resize(function () {
+    for(var i=0;i<18;i++){
+        var position = gameField.children('.card').eq(i).offset();
+        var card = $('.card').children('img').eq(i);
+        if(card.css('opacity') == 1){
+            card.animate({'top':position.top,'left':position.left,'opacity' : '1', 'position':'relative'},0);
+        }
+    }
+});
 UserControll.StartGame();
 UserControll.restartGame();
 UserControll.clickCard();
