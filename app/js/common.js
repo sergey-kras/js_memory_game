@@ -50,6 +50,7 @@ Cards = {
         return randomDeck;
     },
     SetCardsBack: function () {
+        Controller.ImageLoader();
         if($('.card').html() == undefined){
             for(var i=0; i<18; i++){
                 gameField.append('<div data-tid="Card" class="card"><img class="card_img" style="z-index:0" src="img/back.png" alt=""></div>');
@@ -141,11 +142,11 @@ Animation = {
 UserControll = {
     StartGame: function () {
         $('[data-tid="NewGame-startGame"]').click(function () {
+            Deck = Cards.randomCards(Cards.deck);
+            Cards.Deck = Cards.randomAll(Deck);
             Cards.SetCardsBack();
             $('.start-page').fadeOut(700).clearQueue().slideUp(700);
             $('.game-page').fadeIn(700,"linear",function () {
-                Deck = Cards.randomCards(Cards.deck);
-                Cards.Deck = Cards.randomAll(Deck);
                 Animation.SetCardsBack(0);
             });
         });
@@ -158,13 +159,15 @@ UserControll = {
             $('.card_front').remove();
             Score.Scores = 0;
             Cards.pairsOnField = 9;
-            Animation.ViewScores();
             Deck = Cards.randomCards(Cards.deck);
             Cards.Deck = Cards.randomAll(Deck);
+            Animation.ViewScores();
             Cards.SetCardsBack();
             Animation.SetCardsBack(0);
         });
         $('[data-tid="EndGame-retryGame"]').click(function () {
+            Deck = Cards.randomCards(Cards.deck);
+            Cards.Deck = Cards.randomAll(Deck);
             Score.Scores = 0;
             Cards.pairsOnField = 9;
             Animation.ViewGame();
@@ -172,8 +175,6 @@ UserControll = {
             Cards.SetCardsBack();
             $('.start-page').fadeOut(700).clearQueue().slideUp(700);
             $('.game-page').fadeIn(700,"linear",function () {
-                Deck = Cards.randomCards(Cards.deck);
-                Cards.Deck = Cards.randomAll(Deck);
                 Animation.SetCardsBack(0);
             });
         });
@@ -224,6 +225,11 @@ Controller = {
                 Animation.ViewScores();
                 console.log(Score.Scores);
             }
+        }
+    },
+    ImageLoader : function () {
+        for(var i = 0; i < 18; i++){
+            new Image().src = 'img/cards/' + Cards.Deck[i]+ '.png';
         }
     }
 };
