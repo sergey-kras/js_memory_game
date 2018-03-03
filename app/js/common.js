@@ -15,6 +15,7 @@ Cards = {
         'JC', 'JD', 'JH', 'JS' ,
         'QC', 'QD', 'QH', 'QS'
     ],
+    pairsOnField: 9,
     randomCards: function (deck) {
         var Cards = [];
         for (var i=0; i<9; i++){
@@ -124,6 +125,9 @@ Animation = {
             $('.timer').hide();
             $('.timer_line').css({'width':'100%'});
         });
+    },
+    ViewScores: function () {
+        $('[data-tid="Menu-scores"]').html(Score.Scores);
     }
 };
 UserControll = {
@@ -143,6 +147,8 @@ UserControll = {
             var left = $('body')[0].clientWidth - $('.card')[0].clientWidth-20;
             $('.card').children('img').css({'display':'block'}).animate({'opacity' : '0', 'top':'0px', 'left' : left + 'px'},400);
             $('.card_front').remove();
+            Score.Scores = 0;
+            Cards.pairsOnField = 9;
             Deck = Cards.randomCards(Cards.deck);
             Cards.Deck = Cards.randomAll(Deck);
             Cards.SetCardsBack();
@@ -178,12 +184,28 @@ Controller = {
             if (nameFirstCard == nameSecondCard){
                 $('html').css({'pointer-events':'none'});
                 setTimeout('Animation.HideThisTrueCards(Controller.firstCard, Controller.secondCard)',400);
+                Cards.pairsOnField--;
+                Score.ScoresPlus();
+                Animation.ViewScores();
+                console.log(Score.Scores);
             }
             else {
                 $('html').css({'pointer-events':'none'});
                 setTimeout('Animation.HideThisFalseCards(Controller.firstCard, Controller.secondCard)',400);
+                Score.ScoresMinus();
+                Animation.ViewScores();
+                console.log(Score.Scores);
             }
         }
+    }
+};
+Score = {
+    Scores : 0,
+    ScoresPlus: function () {
+        Score.Scores += Cards.pairsOnField * 42;
+    },
+    ScoresMinus: function () {
+        Score.Scores -= (9 - Cards.pairsOnField) * 42;
     }
 };
 UserControll.StartGame();
