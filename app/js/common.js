@@ -107,15 +107,15 @@ Animation = {
         }).clearQueue();
         $(secondCard).css({'position':'absolute','z-index':1}).animate({opacity : 0, top:0 + 'px', left : left + 'px'},400,function () {
             secondCard.remove();
+            $('html').css({'pointer-events':'auto'});
         }).clearQueue();
     },
     HideThisFalseCards: function (firstCard, secondCard) {
-        console.log($(firstCard).parent().find('.card_img'));
-        console.log($(secondCard).parent().find('.card_img'));
         $(secondCard).parent().find('.card_img').fadeIn(400);
         $(firstCard).parent().find('.card_img').fadeIn(400);
         $('.card_front').fadeOut(400,function () {
             $('.card_front').remove();
+            $('html').css({'pointer-events':'auto'});
         });
     },
     Timer: function () {
@@ -176,10 +176,12 @@ Controller = {
             var nameFirstCard  = Controller.firstCard.src;
             var nameSecondCard = Controller.secondCard.src;
             if (nameFirstCard == nameSecondCard){
+                $('html').css({'pointer-events':'none'});
                 setTimeout('Animation.HideThisTrueCards(Controller.firstCard, Controller.secondCard)',400);
             }
             else {
-                setTimeout('Animation.HideThisFalseCards(Controller.firstCard, Controller.firstCard)',400);
+                $('html').css({'pointer-events':'none'});
+                setTimeout('Animation.HideThisFalseCards(Controller.firstCard, Controller.secondCard)',400);
             }
         }
     }
