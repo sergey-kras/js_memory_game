@@ -1,4 +1,4 @@
-var Deck = new Object();
+var gameField = $('.game-page_field');
 Cards = {
     deck : [
         'KC', 'KD', 'KH', 'KS' ,
@@ -52,11 +52,11 @@ Cards = {
     SetCardsBack: function () {
         if($('.card').html() == undefined){
             for(var i=0; i<18; i++){
-                $('.game-page_field').append('<div data-tid="Card" class="card"><img class="card_img" style="z-index:0" src="img/back.png" alt=""></div>');
+                gameField.append('<div data-tid="Card" class="card"><img class="card_img" style="z-index:0" src="img/back.png" alt=""></div>');
             }
         }
         var position = $('body').offset();
-        $('.game-page_field').find('img').animate({'top':position.top,'left':position.left},0);
+        gameField.find('img').animate({'top':position.top,'left':position.left},0);
     },
     ReturnCard: function (number, desc) {
         return desc[number];
@@ -68,7 +68,7 @@ Animation = {
             Animation.ViewAllCards();
         }
         if(i<18){
-            var position = $('.game-page_field').children('.card').eq(i).offset();
+            var position = gameField.children('.card').eq(i).offset();
             if(i<17){
                 $('html').css({'pointer-events':'none'});
             }
@@ -197,13 +197,13 @@ UserControll = {
 };
 Controller = {
     OnlyTwo : function () {
-        var Pair = $('.game-page_field').find('.card_front').eq(1)[0];
+        var Pair = gameField.find('.card_front').eq(1)[0];
         if(Pair != undefined) return true;
         else return false;
     },
     CheckPair : function (bool) {
         if(bool){
-            var object = $('.game-page_field');
+            var object = gameField;
             Controller.firstCard = object.find('.card_front').eq(0)[0];
             Controller.secondCard = object.find('.card_front').eq(1)[0];
             var nameFirstCard  = Controller.firstCard.src;
