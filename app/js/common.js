@@ -158,6 +158,7 @@ UserControll = {
             $('.card_front').remove();
             Score.Scores = 0;
             Cards.pairsOnField = 9;
+            Animation.ViewScores();
             Deck = Cards.randomCards(Cards.deck);
             Cards.Deck = Cards.randomAll(Deck);
             Cards.SetCardsBack();
