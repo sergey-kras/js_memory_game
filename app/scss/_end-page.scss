@@ -1,5 +1,39 @@
 .end-page{
-  @extend .start-page;
+  @include wrapper();
+  margin-top: -5vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  img{
+    width: 503px;
+    height: 262px;
+  }
+  h1{
+    margin-top: 20px;
+    font-size: 28px;
+    letter-spacing: 0.2px;
+    line-height: 38px;
+    font-weight: 700;
+  }
+  @at-root .button{
+    transition: .4s;
+    cursor: pointer;
+    margin-top: 34px;
+    color: #1C7430;
+    background-color: #fff;
+    opacity: 0.85;
+    border-radius: 4px;
+    font-size: 16px;
+    padding: 10px 20px;
+    font-weight: 600;
+    &:hover{
+      transition: .4s;
+      opacity: 1;
+      box-shadow: 0px 0px 25px 0px rgba(255,255,255,0.75);
+    }
+  }
   h1{
     text-align: center;
     text-transform: none;

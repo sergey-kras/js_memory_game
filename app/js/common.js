@@ -128,6 +128,14 @@ Animation = {
     },
     ViewScores: function () {
         $('[data-tid="Menu-scores"]').html(Score.Scores);
+    },
+    ViewEnd : function () {
+        $('.game-page').fadeOut(700).clearQueue().slideUp(700);
+        $('.end-page').fadeIn(700).css({'display':'flex'});
+    },
+    ViewGame : function () {
+        $('.end-page').fadeOut(700).slideUp(700).clearQueue();
+        $('.game-page').fadeIn(700).slideDown(700).css({'display':'flex'});
     }
 };
 UserControll = {
@@ -144,8 +152,9 @@ UserControll = {
     },
     restartGame: function () {
         $('[data-tid="Menu-newGame"]').click(function () {
-            var left = $('body')[0].clientWidth - $('.card')[0].clientWidth-20;
-            $('.card').children('img').css({'display':'block'}).animate({'opacity' : '0', 'top':'0px', 'left' : left + 'px'},400);
+            var card = $('.card');
+            var left = $('body')[0].clientWidth - card[0].clientWidth-20;
+            card.children('img').css({'display':'block'}).animate({'opacity' : '0', 'top':'0px', 'left' : left + 'px'},400);
             $('.card_front').remove();
             Score.Scores = 0;
             Cards.pairsOnField = 9;
@@ -154,17 +163,34 @@ UserControll = {
             Cards.SetCardsBack();
             Animation.SetCardsBack(0);
         });
+        $('[data-tid="EndGame-retryGame"]').click(function () {
+            Score.Scores = 0;
+            Cards.pairsOnField = 9;
+            Animation.ViewGame();
+            Animation.ViewScores();
+            Cards.SetCardsBack();
+            $('.start-page').fadeOut(700).clearQueue().slideUp(700);
+            $('.game-page').fadeIn(700,"linear",function () {
+                Deck = Cards.randomCards(Cards.deck);
+                Cards.Deck = Cards.randomAll(Deck);
+                Animation.SetCardsBack(0);
+            });
+        });
     },
     clickCard: function () {
         $(document).on('click', function (event) {
-            if ($(event.target).hasClass('card_img')) {
+            var object = event.target;
+            if ($(object).hasClass('card_img')) {
                 var number = $(event.target).parent().index();
                 var cardName = Cards.ReturnCard(number,Cards.Deck);
-                if($(event.target).parent().children()[1] == undefined){
+                if($(object).parent().children()[1] == undefined){
                     Animation.ViewCard($(event.target),cardName);
                 }
                 var pairBool = Controller.OnlyTwo();
                 Controller.CheckPair(pairBool);
+                if (Cards.pairsOnField == 0){
+                    Animation.ViewEnd();
+                }
             }
         });
     }
@@ -177,8 +203,9 @@ Controller = {
     },
     CheckPair : function (bool) {
         if(bool){
-            Controller.firstCard = $('.game-page_field').find('.card_front').eq(0)[0];
-            Controller.secondCard =$('.game-page_field').find('.card_front').eq(1)[0];
+            var object = $('.game-page_field');
+            Controller.firstCard = object.find('.card_front').eq(0)[0];
+            Controller.secondCard = object.find('.card_front').eq(1)[0];
             var nameFirstCard  = Controller.firstCard.src;
             var nameSecondCard = Controller.secondCard.src;
             if (nameFirstCard == nameSecondCard){
